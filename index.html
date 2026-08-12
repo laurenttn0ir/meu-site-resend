@@ -2,541 +2,323 @@
 <html lang="pt-br">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mustache Pods BR</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
-  
+  <title>Mustache Pods | Loja Oficial</title>
   <style>
-    :root {
-      --bg: #f8f9fa;
-      --bg-card: #ffffff;
-      --border: #e4e4e7;
-      --text: #18181b;
-      --text-dim: #71717a;
-      --accent: #9333ea;
-      --accent-hover: #7e22ce;
-      --radius-lg: 16px;
-      --radius-sm: 8px;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-    body { background: var(--bg); color: var(--text); min-height: 100vh; }
-
-    .top-bar { background: var(--text); color: #fff; font-size: 12px; text-align: center; padding: 6px; font-weight: 500; }
-
-    header { background: #fff; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 99; }
-    .nav-container { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; padding: 0; background-color: #faf8f5; color: #18181b; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .page-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
     
-    .logo { font-size: 26px; font-weight: 800; color: #000; text-decoration: none; letter-spacing: -1px; font-style: italic; }
-    .logo span { color: var(--accent); }
+    header { background: #fff; border-bottom: 1px solid #e4e4e7; padding: 20px 0; }
+    .logo { font-size: 28px; font-weight: 800; color: #000; }
+    .logo span { color: #9333ea; }
 
-    .menu-categorias { display: flex; gap: 18px; list-style: none; font-size: 13px; font-weight: 600; color: #3f3f46; overflow-x: auto; padding: 4px 0; }
-    .menu-categorias li a { color: inherit; text-decoration: none; white-space: nowrap; transition: color .2s; }
-    .menu-categorias li a:hover { color: var(--accent); }
+    .marquee-container { width: 100%; overflow: hidden; background: #fff; border-top: 1px solid #e4e4e7; border-bottom: 1px solid #e4e4e7; margin: 30px 0; padding: 15px 0; }
+    .marquee-track { white-space: nowrap; animation: scrollMarquee 30s linear infinite; }
+    .marquee-item { display: inline-block; padding: 0 40px; font-weight: 800; font-size: 18px; color: #71717a; text-transform: uppercase; }
+    @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-    .header-icons { display: flex; align-items: center; gap: 16px; font-size: 20px; cursor: pointer; }
-    .cart-btn-wrapper { position: relative; background: #f1f1f5; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .cart-badge { position: absolute; top: -2px; right: -2px; background: var(--accent); color: #fff; font-size: 10px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .products-grid { padding: 20px 0 60px 0; }
+    .card { background: #fff; border: 1px solid #e4e4e7; border-radius: 12px; padding: 20px; width: 23%; float: left; margin: 1%; text-align: center; }
+    .card img { width: 100%; height: 160px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
+    .card h3 { font-size: 15px; font-weight: 700; height: 40px; margin-bottom: 10px; overflow: hidden; color: #18181b; }
+    .price { font-weight: 800; color: #9333ea; font-size: 20px; margin: 15px 0; }
+    .btn-buy { background: #18181b; color: #fff; border: none; padding: 12px; width: 100%; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 13px; transition: background 0.2s; }
+    .btn-buy:hover { background: #9333ea; }
 
-    .banner-wrapper { max-width: 1300px; margin: 24px auto; padding: 0 24px; }
-    .hero-banner {
-      background: linear-gradient(90deg, #18032e 0%, #2e0854 50%, #4c1d95 100%);
-      border-radius: 20px; color: #fff; padding: 48px; display: flex; justify-content: space-between; align-items: center;
-      position: relative; overflow: hidden; min-height: 280px;
+    footer { background: #18181b; color: #a1a1aa; padding: 40px 0; text-align: center; font-size: 14px; clear: both; margin-top: 40px; }
+    .clearfix::after { content: ""; clear: both; display: table; }
+
+    @media (max-width: 1024px) {
+      .card { width: 31%; }
     }
-    .hero-content { max-width: 550px; z-index: 2; }
-    .hero-tag { background: rgba(168, 85, 247, 0.3); border: 1px solid rgba(192, 132, 252, 0.4); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-    .hero-content h1 { font-size: 36px; font-weight: 800; margin: 16px 0; line-height: 1.1; }
-    .hero-content p { color: #d8b4fe; font-size: 14px; margin-bottom: 20px; }
-
-    /* ================= ESTILO DO CARROSSEL INFINITO DE MARCAS ================= */
-    .marquee-container {
-      overflow: hidden;
-      white-space: nowrap;
-      background: #fff;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 0;
-      margin: 30px 0;
-      display: flex;
-    }
-
-    .marquee-track {
-      display: flex;
-      gap: 40px;
-      animation: scrollMarquee 25s linear infinite;
-      align-items: center;
-    }
-
-    .marquee-item {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font-style: italic;
-    }
-
-    @keyframes scrollMarquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    /* ========================================================================= */
-
-    .beneficios { max-width: 1300px; margin: 20px auto; padding: 0 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-    .beneficio-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; }
-    .beneficio-item strong { font-size: 13px; display: block; }
-    .beneficio-item span { font-size: 11px; color: var(--text-dim); }
-
-    .container { max-width: 1300px; margin: 40px auto; padding: 0 24px; }
-    .brand-section { margin-bottom: 50px; }
-    .brand-title { font-size: 24px; font-weight: 800; margin-bottom: 20px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); color: var(--text); display: inline-block; }
-    
-    .grid-produtos { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-
-    .card-produto { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; position: relative; transition: all .2s; }
-    .card-produto:hover { box-shadow: 0 10px 25px rgba(0,0,0,0.06); border-color: var(--accent); }
-    
-    .card-img { width: 100%; height: 160px; object-fit: cover; border-radius: 10px; margin-bottom: 12px; background: #f4f4f5; }
-    .card-nome { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: #27272a; }
-    
-    .select-sabor { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid var(--border); font-size: 12px; margin-bottom: 12px; outline: none; background: #fafafa; }
-    
-    .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
-    .preco { font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 800; color: var(--accent); }
-    .btn-comprar { background: var(--text); color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; font-size: 12px; cursor: pointer; transition: background .2s; }
-    .btn-comprar:hover { background: var(--accent); }
-
-    .cart-sidebar { position: fixed; top: 0; right: -400px; width: 100%; max-width: 380px; height: 100vh; background: #fff; box-shadow: -10px 0 30px rgba(0,0,0,0.1); z-index: 1000; transition: right 0.3s ease; display: flex; flex-direction: column; padding: 24px; }
-    .cart-sidebar.open { right: 0; }
-    .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; font-weight: 800; font-size: 18px; }
-    .cart-items-list { flex: 1; overflow-y: auto; padding: 16px 0; display: flex; flex-direction: column; gap: 12px; }
-    .cart-item-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f1f5; padding-bottom: 10px; font-size: 13px; }
-    .cart-footer { border-top: 1px solid var(--border); padding-top: 16px; }
-    .btn-finalizar { width: 100%; background: #22c55e; color: #fff; border: none; padding: 12px; border-radius: 8px; font-weight: 800; font-size: 15px; cursor: pointer; margin-top: 10px; }
-
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; display: none; align-items: center; justify-content: center; }
-    .modal-overlay.open { display: flex; }
-    .modal-box { background: #fff; width: 100%; max-width: 360px; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-    .modal-box h3 { margin-bottom: 16px; font-size: 20px; font-weight: 800; }
-    .form-group { margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px; }
-    .form-group label { font-size: 12px; font-weight: 600; color: var(--text-dim); }
-    .form-group input { padding: 10px; border-radius: 6px; border: 1px solid var(--border); font-size: 13px; outline: none; }
-    .btn-submit-modal { width: 100%; background: var(--accent); color: #fff; border: none; padding: 10px; border-radius: 6px; font-weight: 700; cursor: pointer; margin-top: 10px; }
-
-    .overlay-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 998; display: none; }
-    .overlay-bg.open { display: block; }
-
     @media (max-width: 768px) {
-      .beneficios { grid-template-columns: repeat(2, 1fr); }
-      .menu-categorias { display: none; }
+      .card { width: 48%; }
+    }
+    @media (max-width: 480px) {
+      .card { width: 100%; float: none; margin: 10px 0; }
     }
   </style>
 </head>
 <body>
 
-  <div class="top-bar">🔥 Parcelamento em até 12x | Desconto especial no PIX/Boleto</div>
-
   <header>
-    <div class="nav-container">
-      <a href="#" class="logo">MUSTACHE<span>PODS</span></a>
-      
-      <ul class="menu-categorias">
-        <li><a href="#ignite">Ignite</a></li>
-        <li><a href="#elfbar">Elfbar</a></li>
-        <li><a href="#oxbar">Oxbar</a></li>
-        <li><a href="#nikbar">Nikbar</a></li>
-        <li><a href="#lostmary">Lost Mary</a></li>
-        <li><a href="#dinner">Dinner Lady</a></li>
-        <li><a href="#blacksheep">Black Sheep</a></li>
-        <li><a href="#outros">Outros / Waka</a></li>
-      </ul>
-
-      <div class="header-icons">
-        <span onclick="openAuthModal()" id="user-icon" style="font-size: 14px; font-weight: 600; cursor: pointer;">👤 Entrar</span>
-        <div class="cart-btn-wrapper" onclick="toggleCart()">
-          🛒
-          <div class="cart-badge" id="cart-count">0</div>
-        </div>
-      </div>
+    <div class="page-container">
+      <div class="logo">MUSTACHE<span>PODS</span></div>
     </div>
   </header>
 
-  <div class="banner-wrapper">
-    <div class="hero-banner">
-      <div class="hero-content">
-        <span class="hero-tag">Estoque 100% Atualizado</span>
-        <h1>OS MELHORES PODS DO MERCADO</h1>
-        <p>Variedade completa de sabores e marcas com entrega rápida e garantia de qualidade.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- CARROSSEL INFINITO DE MARCAS ADICIONADO AQUI -->
   <div class="marquee-container">
     <div class="marquee-track">
-      <div class="marquee-item">⚡ IGNITE</div>
-      <div class="marquee-item">🔥 ELFBAR</div>
-      <div class="marquee-item">📦 OXBAR</div>
-      <div class="marquee-item">⚡ NIKBAR</div>
-      <div class="marquee-item">🌟 LOST MARY</div>
-      <div class="marquee-item">🍸 DINNER LADY</div>
-      <div class="marquee-item">🐑 BLACK SHEEP</div>
-      <div class="marquee-item">🚀 WAKA</div>
-      <!-- Duplicado para garantir o loop infinito perfeito -->
-      <div class="marquee-item">⚡ IGNITE</div>
-      <div class="marquee-item">🔥 ELFBAR</div>
-      <div class="marquee-item">📦 OXBAR</div>
-      <div class="marquee-item">⚡ NIKBAR</div>
-      <div class="marquee-item">🌟 LOST MARY</div>
-      <div class="marquee-item">🍸 DINNER LADY</div>
-      <div class="marquee-item">🐑 BLACK SHEEP</div>
-      <div class="marquee-item">🚀 WAKA</div>
+      <div class="marquee-item">⚡ Ignite</div>
+      <div class="marquee-item">🔥 Elfbar</div>
+      <div class="marquee-item">📦 Oxbar</div>
+      <div class="marquee-item">⚡ Nikbar</div>
+      <div class="marquee-item">🌟 Lost Mary</div>
+      <div class="marquee-item">⚡ Ignite</div>
+      <div class="marquee-item">🔥 Elfbar</div>
+      <div class="marquee-item">📦 Oxbar</div>
+      <div class="marquee-item">⚡ Nikbar</div>
+      <div class="marquee-item">🌟 Lost Mary</div>
     </div>
   </div>
 
-  <div class="beneficios">
-    <div class="beneficio-item">
-      <span>💳</span>
-      <div><strong>Parcelamento</strong><span>Até 12x no cartão</span></div>
-    </div>
-    <div class="beneficio-item">
-      <span>🏷️</span>
-      <div><strong>Desconto Pix</strong><span>10% off à vista</span></div>
-    </div>
-    <div class="beneficio-item">
-      <span>⚡</span>
-      <div><strong>Atendimento</strong><span>Suporte rápido</span></div>
-    </div>
-    <div class="beneficio-item">
-      <span>🔒</span>
-      <div><strong>Site Seguro</strong><span>Compra protegida</span></div>
-    </div>
-  </div>
+  <div class="page-container products-grid clearfix">
 
-  <div class="container">
-
-    <!-- ================= IGNITE ================= -->
-    <div id="ignite" class="brand-section">
-      <h2 class="brand-title">⚡ IGNITE</h2>
-      <div class="grid-produtos">
-        
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite Vnano</div>
-          <select class="select-sabor" id="ign-vnano">
-            <option>icy mint</option><option>pineapple ice</option><option>cola ice</option><option>strawberry guava</option><option>cherry lemonade</option><option>vanilla cream</option><option>tropical fruit</option><option>green apple</option><option>açaí grape</option><option>passion fruit sour kiwi</option><option>watermelon ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 23,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite Vnano', 23.00, 'ign-vnano')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite V35</div>
-          <select class="select-sabor" id="ign-v35">
-            <option>cherry ice</option><option>frui splash</option><option>menthol</option><option>icy mint</option><option>green apple peach kiwi</option><option>strawberry apple watermelon</option><option>blue raspberry ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 25,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite V35', 25.00, 'ign-v35')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite V55 (Preto + Laranja)</div>
-          <select class="select-sabor" id="ign-v55">
-            <option>Grape ice</option><option>grape apple acai</option><option>pineapple ice</option><option>vanilla cream</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 48,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite V55', 48.00, 'ign-v55')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite V80 New</div>
-          <select class="select-sabor" id="ign-v80new">
-            <option>frozen blueberry</option><option>frozen Apple</option><option>frozen mint Water</option><option>Apple mint</option><option>mojito mint</option><option>Spearmint gum</option><option>arctic gum</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 55,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite V80 New', 55.00, 'ign-v80new')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite V80 Slim</div>
-          <select class="select-sabor" id="ign-v80slim">
-            <option>Icy mint</option><option>watermelon ice</option><option>menthol</option><option>banana cherry</option><option>strawberry kiwi</option><option>passion fruit sour kiwi</option><option>strawberry ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 58,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite V80 Slim', 58.00, 'ign-v80slim')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite V150</div>
-          <select class="select-sabor" id="ign-v150">
-            <option>cherry banana</option><option>Green Apple</option><option>passion fruit lemon</option><option>cherry watermelon ice</option><option>cranberry lemonade</option><option>lemon ice</option><option>Aloe Grape</option><option>grape ice</option><option>green apple peach kiwi</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 55,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite V150', 55.00, 'ign-v150')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite V155</div>
-          <select class="select-sabor" id="ign-v155">
-            <option>kiwi passion fruit guava</option><option>menthol</option><option>Grape ice</option><option>watermelon dragonfruit</option><option>strawberry watermelon ice</option><option>green apple</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 58,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite V155', 58.00, 'ign-v155')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite V250</div>
-          <select class="select-sabor" id="ign-v250">
-            <option>menthol</option><option>icy mint</option><option>strawberry ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 68,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite V250', 68.00, 'ign-v250')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite V300 Normal</div>
-          <select class="select-sabor" id="ign-v300">
-            <option>blueberry ice</option><option>strawberry kiwi</option><option>banana coconut water</option><option>pineapple ice</option><option>menthol</option><option>grape ice</option><option>cactus lime soda</option><option>minty melon</option><option>strawberry banana</option><option>icy mint</option><option>strawberry ice</option><option>watermelon ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 75,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite V300 Normal', 75.00, 'ign-v300')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite V400 Mix</div>
-          <select class="select-sabor" id="ign-v400mix">
-            <option>Icy mint / peach Grape</option><option>Grape pop / peach ice</option><option>Grape ice / strawberry</option><option>watermelon ice / cherry ice</option><option>pineapple mango ice / strawberry ice</option><option>Grape ice / watermelon ice</option><option>might melon / menthol</option><option>Peach watermelon / mango ice</option><option>mango/ passion fruit guava</option><option>passion fruit sour kiwi / pineapple</option><option>strawberry mango / banana ice</option><option>strawberry watermelon/ apple ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 78,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite V400 Mix', 78.00, 'ign-v400mix')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Ignite V400 Ice</div>
-          <select class="select-sabor" id="ign-v400ice">
-            <option>watermelon</option><option>Strawberry Apple watermelon</option><option>menthol</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 68,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Ignite V400 Ice', 68.00, 'ign-v400ice')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Kit P100 Bateria + Refil</div>
-          <select class="select-sabor" id="ign-p100">
-            <option>strawberry ice</option><option>watermelon ice</option><option>icy mint</option><option>grape ice</option><option>menthol</option><option>green apple</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 55,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Kit P100 Bateria + Refil', 55.00, 'ign-p100')">Comprar</button></div>
-        </div>
-
-      </div>
+    <!-- 1. Ignite Vnano -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite Vnano">
+      <h3>Ignite Vnano</h3>
+      <div class="price">R$ 58.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20Vnano'">Comprar no WhatsApp</button>
     </div>
 
-    <!-- ================= ELFBAR ================= -->
-    <div id="elfbar" class="brand-section">
-      <h2 class="brand-title">🔥 ELFBAR</h2>
-      <div class="grid-produtos">
-        
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elfbar BC 15k</div>
-          <select class="select-sabor" id="elf-15k">
-            <option>Americano</option><option>tropical lemonade</option><option>strawberry ice</option><option>pineapple ice</option><option>strawberry watermelon ice</option><option>kiwi passion fruit guava</option><option>mango magic</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 48,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elfbar BC 15k', 48.00, 'elf-15k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elfbar BC 20K Touch</div>
-          <select class="select-sabor" id="elf-20k">
-            <option>blueberry raspberry</option><option>polar mint</option><option>grape energy</option><option>mango peach</option><option>watermelon ice</option><option>cherry peach lemonade</option><option>watermelon cherry</option><option>cranberry grape ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 40,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elfbar BC 20K Touch', 40.00, 'elf-20k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elfbar GH 23K</div>
-          <select class="select-sabor" id="elf-gh23k">
-            <option>miami mint</option><option>ice mint</option><option>Green Apple</option><option>sprint mint</option><option>sakura grape</option><option>blue razz ice</option><option>peach mango watermelon</option><option>pineapple plums lime mint</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 63,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elfbar GH 23K', 63.00, 'elf-gh23k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elfbar Joinone Ice Kit 25k</div>
-          <select class="select-sabor" id="elf-joinone">
-            <option>grape ice</option><option>kiwi passion fruit guava</option><option>mango peach watermelon</option><option>grape raspberry</option><option>green apple ice</option><option>blue razz ice</option><option>sour strawberry dragonfruit</option><option>strawberry ice</option><option>watermelon ice</option><option>cool mint</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 65,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elfbar Joinone Ice Kit 25k', 65.00, 'elf-joinone')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elfbar TE 30k</div>
-          <select class="select-sabor" id="elf-te30k">
-            <option>açaí banana</option><option>miami mint</option><option>bubbaloo tutti fruit</option><option>elf love</option><option>winter mint</option><option>strawberry watermelon ice</option><option>pineapple ice</option><option>green apple</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 65,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elfbar TE 30k', 65.00, 'elf-te30k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elfbar Duke</div>
-          <select class="select-sabor" id="elf-duke">
-            <option>grape ice</option><option>icy mint</option><option>strawberry kiwi</option><option>mango magic</option><option>menthol</option><option>peach mango watermelon</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 65,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elfbar Duke', 65.00, 'elf-duke')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elf Ice King</div>
-          <select class="select-sabor" id="elf-iceking">
-            <option>summer splash</option><option>watermelon ice</option><option>baja splash</option><option>Green Apple ice</option><option>grape</option><option>dragon strawnana</option><option>mango magic</option><option>miami mint</option><option>double apple</option><option>strawberry watermelon</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 68,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elf Ice King', 68.00, 'elf-iceking')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elf Ice King Summer</div>
-          <select class="select-sabor" id="elf-icekingsummer">
-            <option>Green Apple slush</option><option>neon twist</option><option>triple berry</option><option>black mint</option><option>strawberry spark</option><option>peach blue slush</option><option>cola slush</option><option>passion flash</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 68,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elf Ice King Summer', 68.00, 'elf-icekingsummer')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elf Trio 40k</div>
-          <select class="select-sabor" id="elf-trio">
-            <option>promegranate blast</option><option>blue razz</option><option>cool menthol</option><option>orange blast</option><option>black mint</option><option>peach twist</option><option>blueberry pom slushy</option><option>la grape</option><option>sakura grape</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 60,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elf Trio 40k', 60.00, 'elf-trio')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elfbar BC 45K Pro</div>
-          <select class="select-sabor" id="elf-45k">
-            <option>watermelon ice</option><option>grape twist</option><option>Miami mint</option><option>americano ice</option><option>grape ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 75,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elfbar BC 45K Pro', 75.00, 'elf-45k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Elfbar E-shisa 18k</div>
-          <select class="select-sabor" id="elf-eshisa">
-            <option>watermelon mint</option><option>love dream</option><option>bubble gum mint</option><option>frozen blueberry</option><option>mango ice</option><option>lemon mint</option><option>double apple</option><option>grape raspberry</option><option>strawberry watermelon</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 60,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Elfbar E-shisa 18k', 60.00, 'elf-eshisa')">Comprar</button></div>
-        </div>
-
-      </div>
+    <!-- 2. Ignite V35 -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite V35">
+      <h3>Ignite V35</h3>
+      <div class="price">R$ 62.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20V35'">Comprar no WhatsApp</button>
     </div>
 
-    <!-- ================= OXBAR ================= -->
-    <div id="oxbar" class="brand-section">
-      <h2 class="brand-title">📦 OXBAR</h2>
-      <div class="grid-produtos">
-        
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=400" class="card-img">
-          <div class="card-nome">Oxbar 30k</div>
-          <select class="select-sabor" id="ox-30k">
-            <option>red ice</option><option>double apple</option><option>raspberry lemon</option><option>blue raspberry lemon</option><option>blackcurrant lemon ice</option><option>passion kiwi</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 58,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Oxbar 30k', 58.00, 'ox-30k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=400" class="card-img">
-          <div class="card-nome">Oxbar 50k</div>
-          <select class="select-sabor" id="ox-50k">
-            <option>icy mint</option><option>menthol</option><option>pineapple kiwi dragonfruit</option><option>grape ice</option><option>pineapple ice</option><option>strawberry kiwi</option><option>strawberry ice</option><option>strawberry grape</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 75,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Oxbar 50k', 75.00, 'ox-50k')">Comprar</button></div>
-        </div>
-
-      </div>
+    <!-- 3. Ignite V55 (Preto + Laranja) -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite V55">
+      <h3>Ignite V55 (Preto + Laranja)</h3>
+      <div class="price">R$ 120.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20V55%20(Preto%20+%20Laranja)'">Comprar no WhatsApp</button>
     </div>
 
-    <!-- ================= NIKBAR ================= -->
-    <div id="nikbar" class="brand-section">
-      <h2 class="brand-title">⚡ NIKBAR</h2>
-      <div class="grid-produtos">
-        
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Nik Bar 10k</div>
-          <select class="select-sabor" id="nik-10k">
-            <option>icy mint</option><option>stone freeze</option><option>green apple</option><option>cherry watermelon</option><option>sakura grape</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 42,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Nik Bar 10k', 42.00, 'nik-10k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Nikbar 12K</div>
-          <select class="select-sabor" id="nik-12k">
-            <option>watermelon ice</option><option>strawberry ice</option><option>spearmint</option><option>sour apple</option><option>stone freeze</option><option>menthol</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 40,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Nikbar 12K', 40.00, 'nik-12k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Nikbar 30k Puffs</div>
-          <select class="select-sabor" id="nik-30k">
-            <option>miami mint</option><option>strawberry apple watermelon</option><option>fresh mint</option><option>strawberry ice</option><option>cherry banana</option><option>grape ice</option><option>blueberry ice</option><option>strawberry kiwi</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 48,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Nikbar 30k Puffs', 48.00, 'nik-30k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Nikbar 40k</div>
-          <select class="select-sabor" id="nik-40k">
-            <option>menthol</option><option>ice mint</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 60,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Nikbar 40k', 60.00, 'nik-40k')">Comprar</button></div>
-        </div>
-
-      </div>
+    <!-- 4. Ignite V80 New -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite V80 New">
+      <h3>Ignite V80 New</h3>
+      <div class="price">R$ 138.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20V80%20New'">Comprar no WhatsApp</button>
     </div>
 
-    <!-- ================= LOST MARY ================= -->
-    <div id="lostmary" class="brand-section">
-      <h2 class="brand-title">🌟 LOST MARY</h2>
-      <div class="grid-produtos">
-        
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Lost Mary MO 10k</div>
-          <select class="select-sabor" id="lost-mo10k">
-            <option>Blueberry banana bubblegum</option><option>Double apple</option><option>Mango orange pineapple</option><option>Triple mango</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 38,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Lost Mary MO 10k', 38.00, 'lost-mo10k')">Comprar</button></div>
-        </div>
+    <!-- 5. Ignite V80 Slim -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite V80 Slim">
+      <h3>Ignite V80 Slim</h3>
+      <div class="price">R$ 145.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20V80%20Slim'">Comprar no WhatsApp</button>
+    </div>
 
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Lost Vape / Lost Mary 10k</div>
-          <select class="select-sabor" id="lost-10k">
-            <option>strawberry chew</option><option>strawberry sometimes</option><option>kiwi passion fruit guava</option><option>pineapple lemonade</option><option>peach mango watermelon</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 38,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Lost Vape / Lost Mary 10k', 38.00, 'lost-10k')">Comprar</button></div>
-        </div>
+    <!-- 6. Ignite V150 -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite V150">
+      <h3>Ignite V150</h3>
+      <div class="price">R$ 138.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20V150'">Comprar no WhatsApp</button>
+    </div>
 
-      </div>
+    <!-- 7. Ignite V155 -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite V155">
+      <h3>Ignite V155</h3>
+      <div class="price">R$ 145.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20V155'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 8. Ignite V250 -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite V250">
+      <h3>Ignite V250</h3>
+      <div class="price">R$ 170.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20V250'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 9. Ignite V300 Normal -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite V300 Normal">
+      <h3>Ignite V300 Normal</h3>
+      <div class="price">R$ 188.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20V300%20Normal'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 10. Ignite V400 Mix -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite V400 Mix">
+      <h3>Ignite V400 Mix</h3>
+      <div class="price">R$ 195.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20V400%20Mix'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 11. Ignite V400 Ice -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Ignite V400 Ice">
+      <h3>Ignite V400 Ice</h3>
+      <div class="price">R$ 170.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Ignite%20V400%20Ice'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 12. Kit P100 Bateria + Refil -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Kit P100">
+      <h3>Kit P100 Bateria + Refil</h3>
+      <div class="price">R$ 138.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Kit%20P100%20Bateria%20+%20Refil'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 13. Elfbar BC 15k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elfbar BC 15k">
+      <h3>Elfbar BC 15k</h3>
+      <div class="price">R$ 120.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elfbar%20BC%2015k'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 14. Elfbar BC 20K Touch -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elfbar BC 20K Touch">
+      <h3>Elfbar BC 20K Touch</h3>
+      <div class="price">R$ 100.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elfbar%20BC%2020K%20Touch'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 15. Elfbar GH 23K -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elfbar GH 23K">
+      <h3>Elfbar GH 23K</h3>
+      <div class="price">R$ 158.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elfbar%20GH%2023K'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 16. Elfbar Joinone Ice Kit 25k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elfbar Joinone">
+      <h3>Elfbar Joinone Ice Kit 25k</h3>
+      <div class="price">R$ 162.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elfbar%20Joinone%20Ice%20Kit%2025k'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 17. Elfbar TE 30k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elfbar TE 30k">
+      <h3>Elfbar TE 30k</h3>
+      <div class="price">R$ 162.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elfbar%20TE%2030k'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 18. Elfbar Duke -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elfbar Duke">
+      <h3>Elfbar Duke</h3>
+      <div class="price">R$ 162.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elfbar%20Duke'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 19. Elf Ice King -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elf Ice King">
+      <h3>Elf Ice King</h3>
+      <div class="price">R$ 170.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elf%20Ice%20King'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 20. Elf Ice King Summer -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elf Ice King Summer">
+      <h3>Elf Ice King Summer</h3>
+      <div class="price">R$ 170.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elf%20Ice%20King%20Summer'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 21. Elf Trio 40k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elf Trio 40k">
+      <h3>Elf Trio 40k</h3>
+      <div class="price">R$ 150.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elf%20Trio%2040k'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 22. Elfbar BC 45K Pro -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elfbar BC 45K Pro">
+      <h3>Elfbar BC 45K Pro</h3>
+      <div class="price">R$ 188.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elfbar%20BC%2045K%20Pro'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 23. Elfbar E-shisa 18k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Elfbar E-shisa 18k">
+      <h3>Elfbar E-shisa 18k</h3>
+      <div class="price">R$ 150.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Elfbar%20E-shisa%2018k'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 24. Oxbar 30k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=400" alt="Oxbar 30k">
+      <h3>Oxbar 30k</h3>
+      <div class="price">R$ 145.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Oxbar%2030k'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 25. Oxbar 50k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=400" alt="Oxbar 50k">
+      <h3>Oxbar 50k</h3>
+      <div class="price">R$ 188.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Oxbar%2050k'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 26. Nik Bar 10k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Nik Bar 10k">
+      <h3>Nik Bar 10k</h3>
+      <div class="price">R$ 105.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Nik%20Bar%2010k'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 27. Nikbar 12K -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Nikbar 12K">
+      <h3>Nikbar 12K</h3>
+      <div class="price">R$ 100.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Nikbar%2012K'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 28. Nikbar 30k Puffs -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Nikbar 30k">
+      <h3>Nikbar 30k Puffs</h3>
+      <div class="price">R$ 120.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Nikbar%2030k%20Puffs'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 29. Nikbar 40k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" alt="Nikbar 40k">
+      <h3>Nikbar 40k</h3>
+      <div class="price">R$ 150.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Nikbar%2040k'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 30. Lost Mary MO 10k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Lost Mary MO 10k">
+      <h3>Lost Mary MO 10k</h3>
+      <div class="price">R$ 95.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Lost%20Mary%20MO%2010k'">Comprar no WhatsApp</button>
+    </div>
+
+    <!-- 31. Lost Vape / Lost Mary 10k -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" alt="Lost Vape / Lost Mary 10k">
+      <h3>Lost Vape / Lost Mary 10k</h3>
+      <div class="price">R$ 95.00</div>
+      <button class="btn-buy" onclick="window.location.href='https://wa.me/55YOURNUMBER?text=Ola,%20gostaria%20de%20comprar%20o%20Lost%20Vape%20/%20Lost%20Mary%2010k'">Comprar no WhatsApp</button>
     </div>
 
   </div>
+
+  <footer>
+    <div class="page-container">
+      &copy; 2026 Mustache Pods - Todos os direitos reservados.
+    </div>
+  </footer>
 
 </body>
 </html>
