@@ -1,76 +1,442 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const cors = require('cors');
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mustache Pods — Premium Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #09090b;
+      --bg-card: #141417;
+      --border: #27272a;
+      --text: #f4f4f5;
+      --text-dim: #a1a1aa;
+      --accent: #00d4aa;
+      --accent-hover: #00b38f;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
 
-const app = express();
-app.use(express.json());
-app.use(cors()); // Permite que seu HTML converse com o servidor
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-// Substitua pelo link do seu banco de dados gratuito do MongoDB Atlas depois!
-const MONGO_URI = process.env.MONGO_URI || "sua_string_de_conexao_do_mongodb_aqui";
-const JWT_SECRET = process.env.JWT_SECRET || "uma_chave_secreta_e_segura_aqui";
+    header {
+      position: sticky; top: 0; z-index: 99;
+      background: rgba(9, 9, 11, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px;
+    }
+    .logo { font-size: 22px; font-weight: 700; color: var(--text); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 15px; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
 
-mongoose.connect(MONGO_URI)
-  .then(() => console.log("🔥 Conectado ao MongoDB com sucesso!"))
-  .catch(err => console.error("❌ Erro ao conectar ao MongoDB:", err));
+    .btn-auth-trigger {
+      background: transparent; border: 1px solid var(--border); color: var(--text);
+      padding: 10px 16px; border-radius: var(--radius-sm); cursor: pointer; font-weight: 600;
+      font-size: 14px; transition: all 0.2s;
+    }
+    .btn-auth-trigger:hover { border-color: var(--text); }
 
-// --- MODELO DE USUÁRIO (Como os dados salvam no banco) ---
-const UserSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true }
-});
-const User = mongoose.model('User', UserSchema);
+    .cart-trigger {
+      position: relative; background: var(--bg-card); border: 1px solid var(--border);
+      color: var(--text); padding: 10px 16px; border-radius: var(--radius-sm);
+      cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all .2s;
+    }
+    .cart-trigger:hover { border-color: var(--accent); }
+    .cart-count { background: var(--accent); color: var(--bg); font-size: 12px; padding: 2px 6px; border-radius: 20px; font-weight: 700; }
 
-// --- ROTA DE CADASTRO ---
-app.post('/api/cadastro', async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+    .hero {
+      max-width: 1200px; margin: 40px auto; padding: 60px 20px;
+      background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(0, 212, 170, 0.15), transparent 60%);
+      pointer-events: none;
+    }
+    .hero h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .hero p { color: var(--text-dim); font-size: 18px; max-width: 600px; margin: 0 auto 32px; }
+    
+    main { max-width: 1200px; margin: 0 auto; padding: 0 20px 8px; }
+    
+    .section-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-    // Verifica se o e-mail já existe
-    const userExists = await User.findOne({ email });
-    if (userExists) return res.status(400).json({ error: "E-mail já cadastrado!" });
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 60px; }
+    
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column;
+      position: relative; transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); border-color: var(--accent); }
+    
+    .badge {
+      position: absolute; top: 16px; left: 16px; background: rgba(0, 212, 170, 0.1);
+      color: var(--accent); border: 1px solid rgba(0, 212, 170, 0.2);
+      padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; z-index: 2;
+    }
 
-    // Criptografa a senha antes de salvar
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    .img-container {
+      width: 100%; height: 220px; background: #18181b; border-radius: var(--radius-md);
+      margin-bottom: 16px; display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim); font-size: 14px; border: 1px solid var(--border); overflow: hidden;
+    }
+    .img-container img { width: 100%; height: 100%; object-fit: cover; }
 
-    // Salva no banco de dados
-    const newUser = new User({ name, email, password: hashedPassword });
-    await newUser.save();
+    .card-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    
+    .flavor-select {
+      width: 100%; background: var(--bg); border: 1px solid var(--border);
+      color: var(--text); padding: 10px; border-radius: var(--radius-sm);
+      font-size: 14px; margin-bottom: 16px; cursor: pointer; outline: none;
+    }
+    .flavor-select:focus { border-color: var(--accent); }
 
-    res.status(201).json({ message: "Usuário cadastrado com sucesso!" });
-  } catch (error) {
-    res.status(500).json({ error: "Erro interno no servidor." });
-  }
-});
+    .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+    .price { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; color: var(--accent); }
+    
+    .btn-add {
+      background: var(--text); color: var(--bg); border: none; padding: 10px 16px;
+      border-radius: var(--radius-sm); font-weight: 600; font-size: 14px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-add:hover { background: var(--accent); }
 
-// --- ROTA DE LOGIN ---
-app.post('/api/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
+    /* Sidebar Carrinho */
+    .cart-sidebar {
+      position: fixed; top: 0; right: -450px; width: 100%; max-width: 440px; height: 100vh;
+      background: var(--bg-card); border-left: 1px solid var(--border); z-index: 100;
+      padding: 30px; display: flex; flex-direction: column; transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    }
+    .cart-sidebar.open { right: 0; }
+    
+    .cart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .cart-header h2 { font-size: 22px; font-weight: 700; }
+    .cart-close { background: transparent; border: none; color: var(--text-dim); font-size: 24px; cursor: pointer; }
 
-    // Busca o usuário pelo e-mail
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ error: "E-mail ou senha incorretos." });
+    .cart-items { flex: 1; overflow-y: auto; margin-bottom: 24px; display: flex; flex-direction: column; gap: 16px; }
+    .cart-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 16px; border-bottom: 1px solid var(--border);
+    }
+    .item-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
+    .item-controls { display: flex; align-items: center; gap: 12px; }
+    .btn-qty { background: var(--border); border: none; color: var(--text); width: 24px; height: 24px; border-radius: 4px; cursor: pointer; }
 
-    // Compara a senha digitada com a criptografada do banco
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ error: "E-mail ou senha incorretos." });
+    .cart-footer-box { border-top: 1px solid var(--border); padding-top: 20px; }
+    .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin-bottom: 20px; }
+    .total-price { color: var(--accent); font-family: 'JetBrains Mono', monospace; }
+    
+    .btn-checkout {
+      width: 100%; background: var(--accent); color: var(--bg); border: none; padding: 14px;
+      border-radius: var(--radius-sm); font-weight: 700; font-size: 16px; cursor: pointer; transition: background 0.2s;
+    }
 
-    // Gera o Token JWT de acesso (vale por 7 dias)
-    const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
+    /* Modal de Autenticação (Login / Cadastro) */
+    .auth-modal {
+      position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+      width: 100%; max-width: 400px; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-lg); padding: 32px; z-index: 101; display: none; opacity: 0;
+      transition: all 0.2s ease; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .auth-modal.open { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    .auth-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .auth-header h3 { font-size: 22px; font-weight: 700; }
+    .auth-close { background: transparent; border: none; color: var(--text-dim); font-size: 22px; cursor: pointer; }
+    
+    .auth-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 14px; font-weight: 500; color: var(--text-dim); }
+    .form-group input {
+      background: var(--bg); border: 1px solid var(--border); color: var(--text);
+      padding: 12px; border-radius: var(--radius-sm); font-size: 14px; outline: none;
+    }
+    .form-group input:focus { border-color: var(--accent); }
+    
+    .btn-auth-submit {
+      background: var(--accent); color: var(--bg); border: none; padding: 12px;
+      border-radius: var(--radius-sm); font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 10px;
+    }
+    .auth-toggle-text { text-align: center; font-size: 13px; color: var(--text-dim); margin-top: 14px; }
+    .auth-toggle-text span { color: var(--accent); cursor: pointer; font-weight: 600; }
 
-    res.json({
-      token,
-      user: { id: user._id, name: user.name, email: user.email }
-    });
-  } catch (error) {
-    res.status(500).json({ error: "Erro interno no servidor." });
-  }
-});
+    .overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 98;
+      display: none; opacity: 0; transition: opacity 0.3s;
+    }
+    .overlay.open { display: block; opacity: 1; }
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Servidor rodando na porta ${PORT}`));
+    footer { border-top: 1px solid var(--border); padding: 40px 20px; text-align: center; color: var(--text-dim); font-size: 14px; }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero { margin: 20px 10px; padding: 40px 16px; }
+      .cart-sidebar { max-width: 100%; }
+      .auth-modal { width: 90%; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="overlay" id="overlay" onclick="closeAllPanels()"></div>
+
+  <header>
+    <nav class="nav">
+      <a href="#" class="logo">MUSTACHE<span>PODS</span></a>
+      <div class="nav-links">
+        <a href="#disposables">Descartáveis</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn-auth-trigger" id="user-btn" onclick="openAuthModal()">Entrar</button>
+        <button class="cart-trigger" onclick="toggleCart()">
+          Carrinho <span class="cart-count" id="cart-count">0</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Premium Vape Store</h1>
+    <p>Os melhores modelos e os sabores mais procurados do mercado com entrega rápida e estoque 100% atualizado.</p>
+  </section>
+
+  <main>
+    <h2 class="section-title" id="disposables">Linha Descartáveis</h2>
+    <div class="grid">
+      <div class="card">
+        <span class="badge">Mais Vendido</span>
+        <div class="img-container">
+          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=300" alt="Elfbar BC 5000">
+        </div>
+        <div class="card-title">Elfbar BC 5000 Puffs</div>
+        <select class="flavor-select" id="flavor-elf5k">
+          <option>Fuji Apple</option>
+          <option>Rainbow Candy</option>
+        </select>
+        <div class="card-footer">
+          <div class="price">R$ 25,00</div>
+          <button class="btn-add" onclick="addToCart('Elfbar BC 5000', 25.00, 'flavor-elf5k')">Adicionar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="auth-modal" id="auth-modal">
+    <div class="auth-header">
+      <h3 id="auth-title">Fazer Login</h3>
+      <button class="auth-close" onclick="closeAuthModal()">×</button>
+    </div>
+    
+    <form class="auth-form" id="auth-form" onsubmit="handleAuthSubmit(event)">
+      <div class="form-group" id="name-group" style="display: none;">
+        <label for="auth-name">Nome Completo</label>
+        <input type="text" id="auth-name" placeholder="Seu nome">
+      </div>
+      <div class="form-group">
+        <label for="auth-email">E-mail</label>
+        <input type="email" id="auth-email" required placeholder="seu@email.com">
+      </div>
+      <div class="form-group">
+        <label for="auth-password">Senha</label>
+        <input type="password" id="auth-password" required placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn-auth-submit" id="btn-auth-submit">Entrar</button>
+    </form>
+    
+    <p class="auth-toggle-text" id="auth-toggle-text">
+      Não tem uma conta? <span onclick="switchAuthMode('cadastro')">Cadastre-se</span>
+    </p>
+  </div>
+
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-header">
+      <h2>Seu Carrinho</h2>
+      <button class="cart-close" onclick="toggleCart()">×</button>
+    </div>
+    <div class="cart-items" id="cart-items-container"></div>
+    <div class="cart-footer-box">
+      <div class="total-row">
+        <span>Total:</span>
+        <span class="total-price" id="cart-total-value">R$ 0,00</span>
+      </div>
+      <button class="btn-checkout" onclick="checkoutEvent()">Finalizar Pedido via WhatsApp</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>Mustache Pods © 2026 — Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    let cart = [];
+    let authMode = 'login';
+    const API_URL = window.location.origin;
+
+    function toggleCart() {
+      document.getElementById('cart-sidebar').classList.toggle('open');
+      document.getElementById('overlay').classList.toggle('open');
+    }
+
+    function openAuthModal() {
+      document.getElementById('auth-modal').classList.add('open');
+      document.getElementById('overlay').classList.add('open');
+    }
+
+    function closeAuthModal() {
+      document.getElementById('auth-modal').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+    }
+
+    function closeAllPanels() {
+      document.getElementById('cart-sidebar').classList.remove('open');
+      document.getElementById('auth-modal').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+    }
+
+    function switchAuthMode(mode) {
+      authMode = mode;
+      const title = document.getElementById('auth-title');
+      const nameGroup = document.getElementById('name-group');
+      const btnSubmit = document.getElementById('btn-auth-submit');
+      const toggleText = document.getElementById('auth-toggle-text');
+
+      if (mode === 'cadastro') {
+        title.innerText = 'Criar Conta';
+        nameGroup.style.display = 'flex';
+        btnSubmit.innerText = 'Cadastrar';
+        toggleText.innerHTML = 'Já tem uma conta? <span onclick="switchAuthMode(\'login\')">Fazer Login</span>';
+      } else {
+        title.innerText = 'Fazer Login';
+        nameGroup.style.display = 'none';
+        btnSubmit.innerText = 'Entrar';
+        toggleText.innerHTML = 'Não tem uma conta? <span onclick="switchAuthMode(\'cadastro\')">Cadastre-se</span>';
+      }
+    }
+
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('auth-name').value;
+      const email = document.getElementById('auth-email').value;
+      const password = document.getElementById('auth-password').value;
+
+      const endpoint = authMode === 'login' ? '/api/login' : '/api/cadastro';
+      const bodyData = authMode === 'login' ? { email, password } : { name, email, password };
+
+      try {
+        const response = await fetch(`${API_URL}${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(bodyData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          alert(data.error || 'Ocorreu um erro.');
+          return;
+        }
+
+        if (authMode === 'login') {
+          alert(`Bem-vindo de volta, ${data.user.name}!`);
+          localStorage.setItem('token', data.token);
+          document.getElementById('user-btn').innerText = `Olá, ${data.user.name.split(' ')[0]}`;
+          closeAuthModal();
+        } else {
+          alert('Cadastro realizado! Agora faça o seu login.');
+          switchAuthMode('login');
+        }
+      } catch (err) {
+        alert('Erro ao conectar com o servidor.');
+      }
+    }
+
+    function addToCart(name, price, selectId) {
+      const selectEl = document.getElementById(selectId);
+      const flavor = selectEl ? selectEl.value : 'Padrão';
+      const existingItem = cart.find(item => item.name === name && item.flavor === flavor);
+
+      if (existingItem) { existingItem.quantity += 1; } 
+      else { cart.push({ name, price, flavor, quantity: 1 }); }
+
+      updateCartUI();
+      toggleCart();
+    }
+
+    function changeQuantity(index, delta) {
+      cart[index].quantity += delta;
+      if (cart[index].quantity <= 0) cart.splice(index, 1);
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const container = document.getElementById('cart-items-container');
+      const countBadge = document.getElementById('cart-count');
+      const totalEl = document.getElementById('cart-total-value');
+      
+      container.innerHTML = '';
+      let total = 0;
+      let totalItems = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+        totalItems += item.quantity;
+
+        container.innerHTML += `
+          <div class="cart-item">
+            <div class="item-info">
+              <h4>${item.name}</h4>
+              <p>Sabor: ${item.flavor}</p>
+              <p style="color: var(--accent); font-family: 'JetBrains Mono'">R$ ${(item.price * item.quantity).toFixed(2)}</p>
+            </div>
+            <div class="item-controls">
+              <button class="btn-qty" onclick="changeQuantity(${index}, -1)">-</button>
+              <span>${item.quantity}</span>
+              <button class="btn-qty" onclick="changeQuantity(${index}, 1)">+</button>
+            </div>
+          </div>
+        `;
+      });
+
+      countBadge.innerText = totalItems;
+      totalEl.innerText = `R$ ${total.toFixed(2)}`;
+    }
+
+    function checkoutEvent() {
+      if (cart.length === 0) return alert("Seu carrinho está vazio!");
+      let message = "Olá! Gostaria de fazer o seguinte pedido:\n\n";
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+        message += `• ${item.quantity}x ${item.name} (${item.flavor})\n`;
+      });
+      message += `\n*Total: R$ ${total.toFixed(2)}*`;
+      window.open(`https://api.whatsapp.com/send?phone=55XXXXXXXXXXX&text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    window.onload = function() {
+      const token = localStorage.getItem('token');
+      if(token) {
+        document.getElementById('user-btn').innerText = "Conta Ativa";
+      }
+    }
+  </script>
+</body>
+</html>
