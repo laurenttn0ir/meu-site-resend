@@ -50,6 +50,40 @@
     .hero-content h1 { font-size: 36px; font-weight: 800; margin: 16px 0; line-height: 1.1; }
     .hero-content p { color: #d8b4fe; font-size: 14px; margin-bottom: 20px; }
 
+    /* ================= ESTILO DO CARROSSEL INFINITO DE MARCAS ================= */
+    .marquee-container {
+      overflow: hidden;
+      white-space: nowrap;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      margin: 30px 0;
+      display: flex;
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 40px;
+      animation: scrollMarquee 25s linear infinite;
+      align-items: center;
+    }
+
+    .marquee-item {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-style: italic;
+    }
+
+    @keyframes scrollMarquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    /* ========================================================================= */
+
     .beneficios { max-width: 1300px; margin: 20px auto; padding: 0 24px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
     .beneficio-item { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 12px; }
     .beneficio-item strong { font-size: 13px; display: block; }
@@ -136,6 +170,29 @@
         <h1>OS MELHORES PODS DO MERCADO</h1>
         <p>Variedade completa de sabores e marcas com entrega rápida e garantia de qualidade.</p>
       </div>
+    </div>
+  </div>
+
+  <!-- CARROSSEL INFINITO DE MARCAS ADICIONADO AQUI -->
+  <div class="marquee-container">
+    <div class="marquee-track">
+      <div class="marquee-item">⚡ IGNITE</div>
+      <div class="marquee-item">🔥 ELFBAR</div>
+      <div class="marquee-item">📦 OXBAR</div>
+      <div class="marquee-item">⚡ NIKBAR</div>
+      <div class="marquee-item">🌟 LOST MARY</div>
+      <div class="marquee-item">🍸 DINNER LADY</div>
+      <div class="marquee-item">🐑 BLACK SHEEP</div>
+      <div class="marquee-item">🚀 WAKA</div>
+      <!-- Duplicado para garantir o loop infinito perfeito -->
+      <div class="marquee-item">⚡ IGNITE</div>
+      <div class="marquee-item">🔥 ELFBAR</div>
+      <div class="marquee-item">📦 OXBAR</div>
+      <div class="marquee-item">⚡ NIKBAR</div>
+      <div class="marquee-item">🌟 LOST MARY</div>
+      <div class="marquee-item">🍸 DINNER LADY</div>
+      <div class="marquee-item">🐑 BLACK SHEEP</div>
+      <div class="marquee-item">🚀 WAKA</div>
     </div>
   </div>
 
@@ -473,175 +530,7 @@
           <select class="select-sabor" id="lost-10k">
             <option>strawberry chew</option><option>strawberry sometimes</option><option>kiwi passion fruit guava</option><option>pineapple lemonade</option><option>peach mango watermelon</option>
           </select>
-          <div class="card-footer"><div class="preco">R$ 27,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Lost Vape / Lost Mary 10k', 27.00, 'lost-10k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Lost Mary 30k Mixed</div>
-          <select class="select-sabor" id="lost-30k">
-            <option>grapefruit Green tea</option><option>Aloe Grape sour Apple</option><option>Apple grape</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 58,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Lost Mary 30k Mixed', 58.00, 'lost-30k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Lost Dura 35k</div>
-          <select class="select-sabor" id="lost-dura">
-            <option>grape ice</option><option>strawberry kiwi</option><option>menthol</option><option>hawaiian juice</option><option>miami mint</option><option>grapefruit passion guava</option><option>strawberry ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 53,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Lost Dura 35k', 53.00, 'lost-dura')">Comprar</button></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ================= DINNER LADY ================= -->
-    <div id="dinner" class="brand-section">
-      <h2 class="brand-title">🍸 DINNER LADY</h2>
-      <div class="grid-produtos">
-        
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=400" class="card-img">
-          <div class="card-nome">Dinner Lady 20k</div>
-          <select class="select-sabor" id="din-20k">
-            <option>blue mint</option><option>watermelon ice</option><option>kiwi passion fruit</option><option>Apple peach ice</option><option>pineapple ice</option><option>Icy mint</option><option>menthol</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 52,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Dinner Lady 20k', 52.00, 'din-20k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=400" class="card-img">
-          <div class="card-nome">Dinner 50k</div>
-          <select class="select-sabor" id="din-50k">
-            <option>grape ice / mint ice</option><option>watermelon ice / blue mint</option><option>mint ice / pineapple ice</option><option>watermelon ice / strawberry ice</option><option>mango passion ice / pineapple ice</option><option>strawberry kiwi / cherry ice</option><option>menthol / passion fruit ice</option><option>kiwi passion fruit / apple peach ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 77,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Dinner 50k', 77.00, 'din-50k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1526947425960-945c6e72858f?w=400" class="card-img">
-          <div class="card-nome">Dinner 60k</div>
-          <select class="select-sabor" id="din-60k">
-            <option>sour pink dust</option><option>berry candy</option><option>sour apple b-pop</option><option>Miami mint</option><option>fab blackberry</option><option>berry cherry lime</option><option>grape bubblegum</option><option>cherry strazz</option><option>California cherry</option><option>utimate melon</option><option>strawberry b-pop</option><option>sour mango pineapple</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 80,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Dinner 60k', 80.00, 'din-60k')">Comprar</button></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ================= BLACK SHEEP ================= -->
-    <div id="blacksheep" class="brand-section">
-      <h2 class="brand-title">🐑 BLACK SHEEP</h2>
-      <div class="grid-produtos">
-        
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Black Sheep 30k</div>
-          <select class="select-sabor" id="bs-30k">
-            <option>menthol / watermelon green apple</option><option>strawberry bubble / sour pineapple</option><option>grape / watermelon bubble</option><option>strawberry banana / pineapple coconut</option><option>menthol / fresh mint</option><option>sour green apple / grape blueberry</option><option>grape / grape</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 75,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Black Sheep 30k', 75.00, 'bs-30k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Black Sheep 40k</div>
-          <select class="select-sabor" id="bs-40k">
-            <option>grape / grape</option><option>strawberry kiwi / cola ice</option><option>grape / grape mango</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 80,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Black Sheep 40k', 80.00, 'bs-40k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400" class="card-img">
-          <div class="card-nome">Black Sheep 55k</div>
-          <select class="select-sabor" id="bs-55k">
-            <option>watermelon ice</option><option>miami mint</option><option>passion fruit</option><option>aloe grape</option><option>blueberry watermelon</option><option>strawberry banana</option><option>cool mint</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 83,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Black Sheep 55k', 83.00, 'bs-55k')">Comprar</button></div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ================= OUTROS & WAKA ================= -->
-    <div id="outros" class="brand-section">
-      <h2 class="brand-title">🚀 OUTROS MODELOS & WAKA</h2>
-      <div class="grid-produtos">
-        
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Hilo Kolo 10k</div>
-          <select class="select-sabor" id="oth-hilo">
-            <option>Honey peach</option><option>Bluberry sour raspberry</option><option>Strawberry lychee</option><option>Guava kiwi strawberry</option><option>Double apple</option><option>Mixed berries</option><option>Spearmint</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 30,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Hilo Kolo 10k', 30.00, 'oth-hilo')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Refil Life Pod 8k</div>
-          <select class="select-sabor" id="oth-lifepod">
-            <option>apple melon ice</option><option>tropical</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 30,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Refil Life Pod 8k', 30.00, 'oth-lifepod')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Nevux 40k</div>
-          <select class="select-sabor" id="oth-nevux">
-            <option>sour mango pineapple</option><option>sour straws</option><option>pink & blue</option><option>blackberry b-pop</option><option>blue rancher</option><option>white peach raspberry</option><option>blue razz</option><option>blackberry blueberry</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 50,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Nevux 40k', 50.00, 'oth-nevux')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">HQD 30k</div>
-          <select class="select-sabor" id="oth-hqd">
-            <option>menthol</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 65,00</div><button class="btn-comprar" onclick="adicionarCarrinho('HQD 30k', 65.00, 'oth-hqd')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">VapeGin 20k (2 Refis + Bateria)</div>
-          <select class="select-sabor" id="oth-vapegin">
-            <option>peach grape ice - strawberry watermelon ice</option><option>watermelon ice - bubble gum ice</option><option>sweet mint ice - blueberry ice</option><option>cool mint - banana milkshake</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 35,00</div><button class="btn-comprar" onclick="adicionarCarrinho('VapeGin 20k', 35.00, 'oth-vapegin')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">ReabBeats RC 10k</div>
-          <select class="select-sabor" id="oth-reab10k">
-            <option>Miami mint</option><option>georgia peach (touch)</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 35,00</div><button class="btn-comprar" onclick="adicionarCarrinho('ReabBeats RC 10k', 35.00, 'oth-reab10k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">ReabBeats 50K</div>
-          <select class="select-sabor" id="oth-reab50k">
-            <option>icy mint</option><option>Miami mint</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 60,00</div><button class="btn-comprar" onclick="adicionarCarrinho('ReabBeats 50K', 60.00, 'oth-reab50k')">Comprar</button></div>
-        </div>
-
-        <div class="card-produto">
-          <img src="https://images.unsplash.com/photo-1517649763962-0c6232660102?w=400" class="card-img">
-          <div class="card-nome">Waka 25k</div>
-          <select class="select-sabor" id="oth-waka">
-            <option>menthol</option><option>aqua ice</option>
-          </select>
-          <div class="card-footer"><div class="preco">R$ 48,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Waka 25k', 48.00, 'oth-waka')">Comprar</button></div>
+          <div class="card-footer"><div class="preco">R$ 38,00</div><button class="btn-comprar" onclick="adicionarCarrinho('Lost Vape / Lost Mary 10k', 38.00, 'lost-10k')">Comprar</button></div>
         </div>
 
       </div>
@@ -649,177 +538,5 @@
 
   </div>
 
-  <!-- Carrinho Sidebar -->
-  <div class="overlay-bg" id="overlay" onclick="toggleCart()"></div>
-  <div class="cart-sidebar" id="cart-sidebar">
-    <div class="cart-header">
-      <span>Seu Carrinho</span>
-      <span style="cursor:pointer;" onclick="toggleCart()">✕</span>
-    </div>
-    <div class="cart-items-list" id="cart-items-container">
-      <p style="color:var(--text-dim); text-align:center; margin-top:40px;">Seu carrinho está vazio.</p>
-    </div>
-    <div class="cart-footer">
-      <div style="display:flex; justify-content:space-between; font-weight:800; font-size:16px;">
-        <span>Total:</span>
-        <span id="cart-total" style="color:var(--accent);">R$ 0,00</span>
-      </div>
-      <button class="btn-finalizar" onclick="finalizarWhatsApp()">Finalizar no WhatsApp</button>
-    </div>
-  </div>
-
-  <!-- Modal Login -->
-  <div class="modal-overlay" id="auth-modal">
-    <div class="modal-box">
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 id="modal-titulo">Entrar na Conta</h3>
-        <span style="cursor:pointer; font-weight:bold;" onclick="closeAuthModal()">✕</span>
-      </div>
-      <form onsubmit="handleAuth(event)">
-        <div class="form-group" id="group-name" style="display:none;">
-          <label>Nome Completo</label>
-          <input type="text" id="input-name" placeholder="Seu nome">
-        </div>
-        <div class="form-group">
-          <label>E-mail</label>
-          <input type="email" id="input-email" required placeholder="seu@email.com">
-        </div>
-        <div class="form-group">
-          <label>Senha</label>
-          <input type="password" id="input-pass" required placeholder="••••••••">
-        </div>
-        <button type="submit" class="btn-submit-modal" id="btn-modal-submit">Entrar</button>
-      </form>
-      <p style="text-align:center; font-size:12px; margin-top:14px; color:var(--text-dim);">
-        <span id="toggle-auth-text" style="color:var(--accent); cursor:pointer; font-weight:700;" onclick="switchMode()">Não tem conta? Cadastre-se</span>
-      </p>
-    </div>
-  </div>
-
-  <script>
-    let carrinho = [];
-    let modoCadastro = false;
-
-    function toggleCart() {
-      document.getElementById('cart-sidebar').classList.toggle('open');
-      document.getElementById('overlay').classList.toggle('open');
-    }
-
-    function openAuthModal() {
-      document.getElementById('auth-modal').classList.add('open');
-    }
-
-    function closeAuthModal() {
-      document.getElementById('auth-modal').classList.remove('open');
-    }
-
-    function switchMode() {
-      modoCadastro = !modoCadastro;
-      document.getElementById('modal-titulo').innerText = modoCadastro ? 'Criar Nova Conta' : 'Entrar na Conta';
-      document.getElementById('group-name').style.display = modoCadastro ? 'flex' : 'none';
-      document.getElementById('btn-modal-submit').innerText = modoCadastro ? 'Cadastrar' : 'Entrar';
-      document.getElementById('toggle-auth-text').innerText = modoCadastro ? 'Já tem conta? Fazer Login' : 'Não tem conta? Cadastre-se';
-    }
-
-    function adicionarCarrinho(nome, preco, saborId) {
-      const selectEl = document.getElementById(saborId);
-      const sabor = selectEl ? selectEl.value : 'Padrão';
-      const itemExistente = carrinho.find(i => i.nome === nome && i.sabor === sabor);
-      
-      if(itemExistente) {
-        itemExistente.qtd++;
-      } else {
-        carrinho.push({ nome, preco, sabor, qtd: 1 });
-      }
-      atualizarCarrinhoUI();
-      toggleCart();
-    }
-
-    function atualizarCarrinhoUI() {
-      const container = document.getElementById('cart-items-container');
-      const badge = document.getElementById('cart-count');
-      const totalEl = document.getElementById('cart-total');
-      
-      container.innerHTML = '';
-      let total = 0;
-      let qtdTotal = 0;
-
-      if(carrinho.length === 0) {
-        container.innerHTML = '<p style="color:var(--text-dim); text-align:center; margin-top:40px;">Seu carrinho está vazio.</p>';
-      }
-
-      carrinho.forEach((item, index) => {
-        total += item.preco * item.qtd;
-        qtdTotal += item.qtd;
-        container.innerHTML += `
-          <div class="cart-item-row">
-            <div>
-              <strong>${item.nome}</strong>
-              <div style="font-size:11px; color:var(--text-dim)">Sabor: ${item.sabor}</div>
-              <div style="font-family:'JetBrains Mono'; font-weight:700; color:var(--accent);">R$ ${(item.preco * item.qtd).toFixed(2)}</div>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <button onclick="mudarQtd(${index}, -1)" style="width:20px; height:20px; border:1px solid var(--border); background:#fff; cursor:pointer;">-</button>
-              <span>${item.qtd}</span>
-              <button onclick="mudarQtd(${index}, 1)" style="width:20px; height:20px; border:1px solid var(--border); background:#fff; cursor:pointer;">+</button>
-            </div>
-          </div>
-        `;
-      });
-
-      badge.innerText = qtdTotal;
-      totalEl.innerText = `R$ ${total.toFixed(2)}`;
-    }
-
-    function mudarQtd(index, delta) {
-      carrinho[index].qtd += delta;
-      if(carrinho[index].qtd <= 0) carrinho.splice(index, 1);
-      atualizarCarrinhoUI();
-    }
-
-    async function handleAuth(e) {
-      e.preventDefault();
-      const email = document.getElementById('input-email').value;
-      const password = document.getElementById('input-pass').value;
-      const name = document.getElementById('input-name').value;
-      
-      const endpoint = modoCadastro ? '/api/cadastro' : '/api/login';
-      const body = modoCadastro ? { name, email, password } : { email, password };
-
-      try {
-        const res = await fetch(`${window.location.origin}${endpoint}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
-        });
-        const data = await res.json();
-        if(!res.ok) return alert(data.error || 'Erro na operação');
-
-        if(modoCadastro) {
-          alert('Conta criada com sucesso! Faça login.');
-          switchMode();
-        } else {
-          alert(`Bem-vindo, ${data.user.name}!`);
-          localStorage.setItem('token', data.token);
-          document.getElementById('user-icon').innerText = `👤 ${data.user.name.split(' ')[0]}`;
-          closeAuthModal();
-        }
-      } catch (err) {
-        alert('Erro ao se conectar com o servidor Node.js');
-      }
-    }
-
-    function finalizarWhatsApp() {
-      if(carrinho.length === 0) return alert('Seu carrinho está vazio!');
-      let texto = "Olá, gostaria de fechar este pedido:\n\n";
-      let total = 0;
-      carrinho.forEach(i => {
-        total += i.preco * i.qtd;
-        texto += `• ${i.qtd}x ${i.nome} (${i.sabor})\n`;
-      });
-      texto += `\n*Total: R$ ${total.toFixed(2)}*`;
-      window.open(`https://api.whatsapp.com/send?phone=55XXXXXXXXXXX&text=${encodeURIComponent(texto)}`, '_blank');
-    }
-  </script>
 </body>
 </html>
