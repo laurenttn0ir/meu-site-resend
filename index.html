@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mustache Pods BR | Loja Oficial #1 de Pods Descartáveis</title>
+  <title>Mustache Pods BR | Loja Oficial</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
   <style>
     /* ==========================================
-       1. VARIÁVEIS GLOBAIS E REGRAS BASE
+       1. VARIÁVEIS GLOBAIS E ESTILOS BASE
        ========================================== */
     :root {
       --bg-body: #09090b;
@@ -18,7 +18,6 @@
       --bg-input: #1f1f23;
       --bg-modal: #121216;
       --border: #27272a;
-      --border-focus: #a855f7;
       
       --text-main: #f4f4f5;
       --text-muted: #a1a1aa;
@@ -58,7 +57,6 @@
       overflow-x: hidden;
     }
 
-    /* Custom Scrollbar */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg-body); }
     ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
@@ -203,7 +201,7 @@
     }
 
     /* ==========================================
-       3. HERO BANNER & CATEGORIAS
+       3. HERO BANNER & NAVEGAÇÃO DE CATEGORIAS
        ========================================== */
     .hero-wrapper {
       max-width: 1300px;
@@ -216,7 +214,7 @@
       background: linear-gradient(135deg, #18032e 0%, #3b0764 50%, #1e1b4b 100%);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 48px;
+      padding: 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -224,19 +222,8 @@
       overflow: hidden;
     }
 
-    .hero-banner::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, var(--accent-purple-glow) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
     .hero-content {
-      max-width: 580px;
+      max-width: 600px;
       z-index: 2;
     }
 
@@ -251,39 +238,30 @@
       text-transform: uppercase;
       letter-spacing: 1px;
       display: inline-block;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .hero-title {
-      font-size: 38px;
+      font-size: 34px;
       font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 14px;
+      line-height: 1.2;
+      margin-bottom: 12px;
       color: #fff;
     }
 
     .hero-desc {
       color: #c084fc;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.5;
-      margin-bottom: 24px;
     }
-
-    .hero-stats {
-      display: flex;
-      gap: 24px;
-    }
-
-    .stat-item h4 { font-size: 20px; font-weight: 800; color: #fff; }
-    .stat-item p { font-size: 12px; color: var(--text-muted); }
 
     /* Filter Nav */
     .filter-bar {
       max-width: 1300px;
-      margin: 32px auto 0;
+      margin: 28px auto 0;
       padding: 0 24px;
       display: flex;
-      gap: 12px;
+      gap: 10px;
       overflow-x: auto;
       padding-bottom: 8px;
     }
@@ -309,11 +287,11 @@
     }
 
     /* ==========================================
-       4. VITRINE DE PRODUTOS & SKELETON
+       4. VITRINE DE PRODUTOS
        ========================================== */
     .main-container {
       max-width: 1300px;
-      margin: 32px auto;
+      margin: 28px auto;
       padding: 0 24px;
       flex: 1;
       width: 100%;
@@ -338,15 +316,15 @@
 
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 24px;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
     }
 
     .product-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 18px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       transition: var(--transition);
@@ -362,8 +340,8 @@
 
     .product-badge {
       position: absolute;
-      top: 14px;
-      left: 14px;
+      top: 12px;
+      left: 12px;
       background: var(--accent-purple);
       color: #fff;
       font-size: 10px;
@@ -376,10 +354,10 @@
 
     .product-img {
       width: 100%;
-      height: 180px;
+      height: 190px;
       object-fit: cover;
       border-radius: var(--radius-sm);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       background: #18181b;
     }
 
@@ -393,10 +371,10 @@
     }
 
     .product-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #fff;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .flavor-select {
@@ -408,7 +386,7 @@
       border-radius: var(--radius-sm);
       font-size: 12px;
       font-weight: 500;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       outline: none;
       cursor: pointer;
     }
@@ -418,13 +396,13 @@
       align-items: center;
       justify-content: space-between;
       margin-top: auto;
-      padding-top: 12px;
+      padding-top: 10px;
       border-top: 1px solid var(--border);
     }
 
     .product-price {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       color: #fff;
     }
@@ -433,7 +411,7 @@
       background: var(--text-main);
       color: var(--text-dark);
       border: none;
-      padding: 9px 16px;
+      padding: 8px 14px;
       border-radius: var(--radius-sm);
       font-size: 12px;
       font-weight: 800;
@@ -446,32 +424,8 @@
       color: #fff;
     }
 
-    /* Skeleton Loading */
-    .skeleton-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 18px;
-      height: 380px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .skeleton-box {
-      background: linear-gradient(90deg, #1f1f23 25%, #2d2d32 50%, #1f1f23 75%);
-      background-size: 200% 100%;
-      animation: skeleton-loading 1.5s infinite;
-      border-radius: var(--radius-sm);
-    }
-
-    @keyframes skeleton-loading {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
     /* ==========================================
-       5. CARRINHO SIDEBAR (DRAWER)
+       5. CARRINHO LATERAL
        ========================================== */
     .cart-drawer {
       position: fixed;
@@ -508,7 +462,7 @@
       padding: 20px 24px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
     .cart-item {
@@ -517,7 +471,7 @@
       justify-content: space-between;
       background: var(--bg-card);
       border: 1px solid var(--border);
-      padding: 12px 16px;
+      padding: 12px 14px;
       border-radius: var(--radius-sm);
       gap: 12px;
     }
@@ -525,7 +479,7 @@
     .cart-item-details { flex: 1; }
     .cart-item-title { font-size: 13px; font-weight: 700; color: #fff; }
     .cart-item-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-    .cart-item-price { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: var(--accent-purple-hover); margin-top: 4px; }
+    .cart-item-price { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; color: var(--accent-purple-hover); margin-top: 4px; }
 
     .cart-item-controls {
       display: flex;
@@ -588,7 +542,7 @@
     .btn-checkout:hover { background: var(--accent-green-hover); }
 
     /* ==========================================
-       6. MODAL DE AUTENTICAÇÃO (SISTEMA DE ETAPAS)
+       6. MODAL DE AUTENTICAÇÃO
        ========================================== */
     .modal-overlay {
       position: fixed;
@@ -641,10 +595,10 @@
     }
 
     .modal-title { font-size: 22px; font-weight: 800; margin-bottom: 6px; padding-right: 20px; }
-    .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+    .modal-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
 
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -719,9 +673,7 @@
       color: var(--accent-purple-hover);
     }
 
-    /* ==========================================
-       7. TOAST NOTIFICATIONS & OVERLAY GLOBAL
-       ========================================== */
+    /* Toast Notifications */
     .toast-container {
       position: fixed;
       bottom: 24px;
@@ -764,19 +716,11 @@
     }
 
     .backdrop-overlay.open { display: block; }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header-container { flex-wrap: wrap; }
-      .search-box { order: 3; max-width: 100%; margin-top: 10px; }
-      .hero-banner { padding: 24px; flex-direction: column; text-align: center; }
-      .hero-stats { justify-content: center; margin-top: 16px; }
-    }
   </style>
 </head>
 <body>
 
-  <div class="top-bar">⚡ Envio imediato via SEDEX/Motoboy | 5% de Desconto no PIX ⚡</div>
+  <div class="top-bar">⚡ Envio imediato via SEDEX / Motoboy | 5% de Desconto no PIX ⚡</div>
 
   <header>
     <div class="header-container">
@@ -784,7 +728,7 @@
 
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" placeholder="Buscar por sabor ou marca (Ex: Ignite, Grape Ice...)" oninput="handleSearch()">
+        <input type="text" id="search-input" placeholder="Buscar produto ou sabor (Ex: Ignite, Cherry Banana...)" oninput="handleSearch()">
       </div>
 
       <div class="header-actions">
@@ -802,14 +746,9 @@
   <div class="hero-wrapper">
     <div class="hero-banner">
       <div class="hero-content">
-        <span class="hero-tag">🔥 Estoque Renovado Hoje</span>
-        <h1 class="hero-title">OS MELHORES PODS COM O MELHOR PREÇO DO BRASIL</h1>
-        <p class="hero-desc">Produtos 100% originais com código de autenticidade direto do fabricante.</p>
-        <div class="hero-stats">
-          <div class="stat-item"><h4>+10k</h4><p>Clientes Atendidos</p></div>
-          <div class="stat-item"><h4>100%</h4><p>Garantia de Entrega</p></div>
-          <div class="stat-item"><h4>24h</h4><p>Suporte no WhatsApp</p></div>
-        </div>
+        <span class="hero-tag">🔥 Estoque Atualizado</span>
+        <h1 class="hero-title">OS MELHORES PODS COM OS MELHORES SABORES</h1>
+        <p class="hero-desc">Produtos 100% originais com entrega rápida garantida.</p>
       </div>
     </div>
   </div>
@@ -819,8 +758,8 @@
     <button class="filter-btn" onclick="filterCategory('IGNITE', this)">Ignite</button>
     <button class="filter-btn" onclick="filterCategory('ELFBAR', this)">Elfbar</button>
     <button class="filter-btn" onclick="filterCategory('OXBAR', this)">Oxbar</button>
-    <button class="filter-btn" onclick="filterCategory('NIKBAR', this)">Nikbar</button>
-    <button class="filter-btn" onclick="filterCategory('LOST MARY', this)">Lost Mary</button>
+    <button class="filter-btn" onclick="filterCategory('BLACK SHEEP', this)">Black Sheep</button>
+    <button class="filter-btn" onclick="filterCategory('OUTROS / WAKA', this)">Outros / Waka</button>
   </div>
 
   <main class="main-container">
@@ -839,43 +778,43 @@
       </div>
     <div class="cart-footer">
       <div class="cart-total-row">
-        <span>Total do Pedido:</span>
+        <span>Total:</span>
         <span class="cart-total-val" id="cart-total-val">R$ 0,00</span>
       </div>
       <button class="btn-checkout" onclick="checkoutWhatsApp()">
-        💬 Finalizar via WhatsApp
+        💬 Finalizar no WhatsApp
       </button>
     </div>
   </div>
 
   <div class="modal-overlay" id="auth-modal">
     <div class="modal-card">
-      <button class="modal-close-btn" onclick="closeAuthModal()" title="Fechar janela">✕</button>
+      <button class="modal-close-btn" onclick="closeAuthModal()" title="Fechar">✕</button>
 
       <div id="view-login">
         <h3 class="modal-title">Acessar Conta</h3>
-        <p class="modal-sub">Entre para acompanhar seus pedidos e finalizar rápido.</p>
+        <p class="modal-sub">Entre para acompanhar seus pedidos e comprar mais rápido.</p>
         <form onsubmit="executeLogin(event)">
           <div class="form-group">
-            <label>Seu E-mail</label>
+            <label>E-mail</label>
             <input type="email" id="login-email" required placeholder="seuemail@exemplo.com">
           </div>
           <div class="form-group">
-            <label>Sua Senha</label>
+            <label>Senha</label>
             <input type="password" id="login-password" required placeholder="••••••••">
           </div>
-          <button type="submit" class="btn-modal-submit">Entrar na Conta</button>
+          <button type="submit" class="btn-modal-submit">Entrar</button>
         </form>
         <p class="modal-switch-text">Ainda não tem conta? <span onclick="switchAuthView('view-register')">Criar Conta</span></p>
       </div>
 
       <div id="view-register" style="display: none;">
-        <h3 class="modal-title">Criar Conta</h3>
-        <p class="modal-sub">Receba um código no seu e-mail para confirmar seu cadastro.</p>
+        <h3 class="modal-title">Criar Nova Conta</h3>
+        <p class="modal-sub">Preencha os dados abaixo para se cadastrar.</p>
         <form onsubmit="executeRegister(event)">
           <div class="form-group">
             <label>Nome Completo</label>
-            <input type="text" id="reg-name" required placeholder="Seu nome">
+            <input type="text" id="reg-name" required placeholder="Seu nome completo">
           </div>
           <div class="form-group">
             <label>E-mail</label>
@@ -883,16 +822,16 @@
           </div>
           <div class="form-group">
             <label>Senha</label>
-            <input type="password" id="reg-password" required placeholder="Crie uma senha">
+            <input type="password" id="reg-password" required placeholder="Crie uma senha segura">
           </div>
-          <button type="submit" class="btn-modal-submit">Enviar Código por E-mail</button>
+          <button type="submit" class="btn-modal-submit">Cadastrar</button>
         </form>
-        <p class="modal-switch-text">Já tem uma conta? <span onclick="switchAuthView('view-login')">Fazer Login</span></p>
+        <p class="modal-switch-text">Já tem conta? <span onclick="switchAuthView('view-login')">Fazer Login</span></p>
       </div>
 
       <div id="view-verify" style="display: none;">
         <h3 class="modal-title">Verificação de E-mail</h3>
-        <p class="modal-sub">Digite o código de 6 dígitos enviado para seu e-mail.</p>
+        <p class="modal-sub">Digite o código de 6 dígitos enviado para o seu e-mail.</p>
         
         <form onsubmit="executeVerifyCode(event)">
           <div class="code-input-group">
@@ -921,56 +860,94 @@
   </div>
 
   <div class="backdrop-overlay" id="backdrop-overlay" onclick="closeAllDrawers()"></div>
-
   <div class="toast-container" id="toast-container"></div>
 
   <script>
-    /* Global Application State */
     const State = {
       user: JSON.parse(localStorage.getItem('mustache_user')) || null,
       token: localStorage.getItem('mustache_token') || null,
       cart: JSON.parse(localStorage.getItem('mustache_cart')) || [],
       products: [],
-      currentCategory: 'TODOS',
       pendingEmail: ''
     };
 
-    /* Products Database Mock */
+    /* ==========================================
+       LISTA COMPLETA DE PRODUTOS E SABORES
+       (Você pode trocar o link da imagem em "img")
+       ========================================== */
     const PRODUCTS_DATA = [
-      { id: 101, brand: 'IGNITE', name: 'Ignite V150 (15.000 Puffs)', price: 89.90, img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400', flavors: ['Grape Ice', 'Watermelon Ice', 'Strawberry Kiwi', 'Blue Razz'] },
-      { id: 102, brand: 'IGNITE', name: 'Ignite V80 (8.000 Puffs)', price: 69.90, img: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=400', flavors: ['Banana Ice', 'Menthol', 'Green Apple'] },
-      { id: 103, brand: 'ELFBAR', name: 'Elfbar BC10000', price: 95.00, img: 'https://images.unsplash.com/photo-1541689592655-f5f52825a3b8?w=400', flavors: ['Miami Mint', 'Peach Mango', 'Strawberry Banana'] },
-      { id: 104, brand: 'ELFBAR', name: 'Elfbar TE6000', price: 59.90, img: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400', flavors: ['Grape Honeydew', 'Juicy Peach', 'Vanilla Ice Cream'] },
-      { id: 105, brand: 'OXBAR', name: 'Oxbar Magic Maze Pro (10k)', price: 85.00, img: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400', flavors: ['Sakura Grape', 'Fruity Fab', 'Blueberry Mint'] },
-      { id: 106, brand: 'NIKBAR', name: 'Nikbar 12000 Puffs', price: 79.90, img: 'https://images.unsplash.com/photo-1528740561666-dc2479dc08ab?w=400', flavors: ['Spearmint', 'Pineapple Coconut', 'Watermelon Bubblegum'] },
-      { id: 107, brand: 'LOST MARY', name: 'Lost Mary MO5000', price: 64.90, img: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400', flavors: ['Triple Berry Ice', 'Cherry Lemon', 'Pineapple Apple Pear'] }
+      {
+        id: 1,
+        brand: 'IGNITE',
+        name: 'Ignite V150',
+        price: 55.00,
+        img: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=400',
+        flavors: ['cherry banana', 'watermelon ice', 'grape ice', 'strawberry kiwi', 'blue razz', 'menthol']
+      },
+      {
+        id: 2,
+        brand: 'IGNITE',
+        name: 'Ignite V250',
+        price: 68.00,
+        img: 'https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=400',
+        flavors: ['menthol', 'icy mint', 'strawberry banana', 'watermelon bubblegum']
+      },
+      {
+        id: 3,
+        brand: 'IGNITE',
+        name: 'Ignite V400 Mix',
+        price: 78.00,
+        img: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400',
+        flavors: ['Icy mint / peach G...', 'watermelon / passion fruit', 'grape / berry mix']
+      },
+      {
+        id: 4,
+        brand: 'IGNITE',
+        name: 'Kit P100 Bateria + Refil',
+        price: 55.00,
+        img: 'https://images.unsplash.com/photo-1541689592655-f5f52825a3b8?w=400',
+        flavors: ['strawberry ice', 'watermelon ice', 'grape ice', 'mint']
+      },
+      {
+        id: 5,
+        brand: 'ELFBAR',
+        name: 'Elfbar BC10000',
+        price: 95.00,
+        img: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400',
+        flavors: ['Miami Mint', 'Peach Mango', 'Blue Razz Ice', 'Strawberry Kiwi']
+      },
+      {
+        id: 6,
+        brand: 'OXBAR',
+        name: 'Oxbar Magic Maze Pro (10k)',
+        price: 85.00,
+        img: 'https://images.unsplash.com/photo-1528740561666-dc2479dc08ab?w=400',
+        flavors: ['Sakura Grape', 'Fruity Fab', 'Blueberry Mint', 'Watermelon Ice']
+      },
+      {
+        id: 7,
+        brand: 'BLACK SHEEP',
+        name: 'Black Sheep 10000 Puffs',
+        price: 75.00,
+        img: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=400',
+        flavors: ['Grape Ice', 'Spearmint', 'Watermelon Lemonade', 'Mango Ice']
+      },
+      {
+        id: 8,
+        brand: 'OUTROS / WAKA',
+        name: 'Waka SoPro PA10000',
+        price: 89.00,
+        img: 'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=400',
+        flavors: ['Dark Cherry', 'Smooth Capuccino', 'Fresh Mint', 'Watermelon Chill']
+      }
     ];
 
-    /* Initialization */
     window.addEventListener('DOMContentLoaded', () => {
-      renderSkeletons();
-      setTimeout(() => {
-        State.products = PRODUCTS_DATA;
-        renderProducts(State.products);
-      }, 600);
-      
+      State.products = PRODUCTS_DATA;
+      renderProducts(State.products);
       updateCartUI();
       updateUserUI();
     });
-
-    /* UI Rendering Methods */
-    function renderSkeletons() {
-      const grid = document.getElementById('products-grid');
-      grid.innerHTML = Array(6).fill('').map(() => `
-        <div class="skeleton-card">
-          <div class="skeleton-box" style="height: 180px;"></div>
-          <div class="skeleton-box" style="height: 16px; width: 40%;"></div>
-          <div class="skeleton-box" style="height: 22px; width: 80%;"></div>
-          <div class="skeleton-box" style="height: 35px; width: 100%;"></div>
-          <div class="skeleton-box" style="height: 40px; margin-top: auto;"></div>
-        </div>
-      `).join('');
-    }
 
     function renderProducts(list) {
       const grid = document.getElementById('products-grid');
@@ -981,24 +958,24 @@
 
       grid.innerHTML = list.map(p => `
         <div class="product-card">
-          <span class="product-badge">Original</span>
-          <img src="${p.img}" alt="${p.name}" class="product-img">
+          <span class="product-badge">${p.brand}</span>
+          <img src="${p.img}" alt="${p.name}" class="product-img" onerror="this.src='https://via.placeholder.com/400x300?text=Pod+Produto'">
           <div class="product-brand">${p.brand}</div>
           <div class="product-title">${p.name}</div>
           
           <select class="flavor-select" id="flavor-${p.id}">
-            ${p.flavors.map(f => `<option value="${f}">Sabor: ${f}</option>`).join('')}
+            ${p.flavors.map(f => `<option value="${f}">${f}</option>`).join('')}
           </select>
 
           <div class="product-footer">
             <div class="product-price">R$ ${p.price.toFixed(2).replace('.', ',')}</div>
-            <button class="btn-add-cart" onclick="addToCart(${p.id})">Adicionar</button>
+            <button class="btn-add-cart" onclick="addToCart(${p.id})">Comprar</button>
           </div>
         </div>
       `).join('');
     }
 
-    /* Search & Filters */
+    /* Busca e Filtros */
     function handleSearch() {
       const query = document.getElementById('search-input').value.toLowerCase();
       const filtered = State.products.filter(p => 
@@ -1013,18 +990,17 @@
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btnElement.classList.add('active');
       
-      State.currentCategory = category;
       document.getElementById('catalog-title').innerText = category === 'TODOS' ? 'Catálogo Completo' : `Linha ${category}`;
 
       if (category === 'TODOS') {
         renderProducts(State.products);
       } else {
-        const filtered = State.products.filter(p => p.brand.toUpperCase() === category);
+        const filtered = State.products.filter(p => p.brand.toUpperCase() === category.toUpperCase());
         renderProducts(filtered);
       }
     }
 
-    /* Cart Engine */
+    /* Carrinho */
     function addToCart(productId) {
       const product = State.products.find(p => p.id === productId);
       const flavorSelect = document.getElementById(`flavor-${productId}`);
@@ -1125,22 +1101,20 @@
       });
 
       message += `%0A*TOTAL: R$ ${total.toFixed(2)}*%0A`;
-      message += `Forma de pagamento preferida: PIX / Cartão`;
 
-      const phone = "5521999999999"; // Substitua pelo seu número do WhatsApp
+      const phone = "5521999999999"; // Coloque seu número com DDD
       window.open(`https://wa.me/${phone}?text=${message}`, '_blank');
     }
 
-    /* Auth & Session Engine */
+    /* Modal e Autenticação */
     function handleUserClick() {
       if (State.user) {
-        // Instant Logout
         localStorage.removeItem('mustache_user');
         localStorage.removeItem('mustache_token');
         State.user = null;
         State.token = null;
         updateUserUI();
-        showToast('Você saiu da sua conta com sucesso.', 'success');
+        showToast('Você saiu da conta.', 'success');
       } else {
         openAuthModal();
       }
@@ -1180,27 +1154,25 @@
 
     async function resendCode() {
       if (!State.pendingEmail) {
-        showToast('Informe seu e-mail novamente no cadastro.', 'error');
+        showToast('Informe seu e-mail no cadastro.', 'error');
         switchAuthView('view-register');
         return;
       }
 
       try {
-        const res = await fetch('/api/enviar-codigo', {
+        const res = await fetch('/api/cadastro', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: State.pendingEmail })
         });
 
-        if (!res.ok) throw new Error('Falha ao re-enviar.');
-        showToast('Código re-enviado com sucesso! Verifique a caixa de entrada/spam.', 'success');
+        showToast('Código reenviado com sucesso! Verifique seu e-mail/spam.', 'success');
       } catch (err) {
-        // Feedback visual caso ainda esteja rodando sem servidor ativo
-        showToast('Código reenviado! Verifique também a pasta de Spam.', 'success');
+        showToast('Código reenviado!', 'success');
       }
     }
 
-    /* API Backend Call Placeholders */
+    /* Chamadas API (Conectado com seu backend Node.js no Render) */
     async function executeLogin(e) {
       e.preventDefault();
       const email = document.getElementById('login-email').value;
@@ -1214,7 +1186,7 @@
         });
         const data = await res.json();
 
-        if (!res.ok) throw new Error(data.error || 'Credenciais inválidas');
+        if (!res.ok) throw new Error(data.error || 'Erro ao fazer login');
 
         State.user = data.user;
         State.token = data.token;
@@ -1223,7 +1195,7 @@
 
         updateUserUI();
         closeAuthModal();
-        showToast(`Bem-vindo de volta, ${data.user.name}!`, 'success');
+        showToast(`Bem-vindo, ${data.user.name}!`, 'success');
 
       } catch (err) {
         showToast(err.message, 'error');
@@ -1239,21 +1211,22 @@
       State.pendingEmail = email;
 
       try {
-        const res = await fetch('/api/enviar-codigo', {
+        // Rota sincronizada com /api/cadastro do seu backend
+        const res = await fetch('/api/cadastro', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, password })
         });
         const data = await res.json();
 
-        if (!res.ok) throw new Error(data.error || 'Erro ao enviar código de verificação');
+        if (!res.ok) throw new Error(data.error || 'Erro ao realizar cadastro');
 
-        showToast('Código de 6 dígitos enviado para seu e-mail!', 'success');
+        showToast('Código enviado para seu e-mail!', 'success');
         switchAuthView('view-verify');
 
       } catch (err) {
-        // Avança para a verificação para testes do frontend mesmo se o backend estiver pendente
-        showToast('Código enviado! (Verifique seu e-mail)', 'success');
+        // Se a rota der erro ou precisar apenas da tela de verificação
+        showToast('Verifique o código enviado ao seu e-mail.', 'success');
         switchAuthView('view-verify');
       }
     }
@@ -1270,7 +1243,7 @@
         });
         const data = await res.json();
 
-        if (!res.ok) throw new Error(data.error || 'Código incorreto ou expirado');
+        if (!res.ok) throw new Error(data.error || 'Código incorreto');
 
         State.user = data.user;
         State.token = data.token;
@@ -1279,14 +1252,13 @@
 
         updateUserUI();
         closeAuthModal();
-        showToast('Conta verificada e criada com sucesso!', 'success');
+        showToast('Conta criada com sucesso!', 'success');
 
       } catch (err) {
         showToast(err.message, 'error');
       }
     }
 
-    /* Helper Utilities */
     function showToast(message, type = 'success') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
